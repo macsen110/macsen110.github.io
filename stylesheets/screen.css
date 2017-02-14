@@ -142,6 +142,7 @@ header {
   margin: 0 auto;
   max-width: 600px;
   top: 38px;
+  display: none
 }
 
 header span.ribbon-inner {
