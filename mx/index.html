@@ -1,18 +1,28 @@
-<!DOCTYPE html><html lang=en><head>
-	<base href="/mx">
-	<meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=X-UA-Compatible content="ie=edge"><meta charset=UTF-8><meta content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" name=viewport><meta content=no-cache,must-revalidate http-equiv=Cache-Control><meta content=no-cache http-equiv=pragma><title>newday</title><script>//自适应设备
+<!DOCTYPE html>
+<html lang=en>
+
+<head>
+	<meta charset=UTF-8>
+	<meta name=viewport content="width=device-width,initial-scale=1">
+	<meta http-equiv=X-UA-Compatible content="ie=edge">
+	<meta charset=UTF-8>
+	<meta content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" name=viewport>
+	<meta content=no-cache,must-revalidate http-equiv=Cache-Control>
+	<meta content=no-cache http-equiv=pragma>
+	<title>newday</title>
+	<script>//自适应设备
 		(function (doc, win) {
 			var docEl = doc.documentElement,
-					recalc = function () {
-						var clientWidth = docEl.clientWidth;
-						if (!clientWidth) return;
-						clientWidth = clientWidth > 1080 ? 1080 : clientWidth;
-						clientWidth = clientWidth < 320 ? 320 : clientWidth;
-						docEl.style.fontSize = clientWidth/10 + 'px'; //以后的宽高值除以20，为了兼容谷歌的模拟器,根目录最小单位不能为12px
-						docEl.style.display = "none";
-						// docEl.clientWidth; // Force relayout - important to new Androids
-						docEl.style.display = "";
-					};
+				recalc = function () {
+					var clientWidth = docEl.clientWidth;
+					if (!clientWidth) return;
+					clientWidth = clientWidth > 1080 ? 1080 : clientWidth;
+					clientWidth = clientWidth < 320 ? 320 : clientWidth;
+					docEl.style.fontSize = clientWidth / 10 + 'px'; //以后的宽高值除以20，为了兼容谷歌的模拟器,根目录最小单位不能为12px
+					docEl.style.display = "none";
+					// docEl.clientWidth; // Force relayout - important to new Androids
+					docEl.style.display = "";
+				};
 
 			// Abort if browser does not support addEventListener
 			if (!doc.addEventListener) return;
@@ -23,4 +33,13 @@
 			if (div.style.fontSize != "1rem") return;
 			doc.addEventListener('DOMContentLoaded', recalc, false);
 			win.addEventListener('orientationchange' in window ? 'orientationchange' : 'resize', recalc, false);
-		})(document, window);</script><link href=/static/css/style.css rel=stylesheet></head><body><div id=app></div><script type=text/javascript src=/static/js/vendor.js></script><script type=text/javascript src=/static/js/app.js></script></body></html>
+		})(document, window);</script>
+</head>
+
+<body>
+	<div id=app>
+		<embed src="/aa.pdf" width="800px" height="2100px" />
+	</div>
+</body>
+
+</html>
