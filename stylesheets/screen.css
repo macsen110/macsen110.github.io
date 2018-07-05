@@ -163,6 +163,7 @@ header span.left-tail, header span.right-tail {
   position: absolute;
   bottom: -37px;
   z-index: 0;
+  display: none;
 }
 
 header span.left-tail {

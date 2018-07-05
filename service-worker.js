@@ -1,6 +1,6 @@
 'use strict';
 
-const version = 'v20170304b';
+const version = 'v9000';
 const __DEVELOPMENT__ = true;
 const __DEBUG__ = true;
 const offlineResources = [
@@ -9,23 +9,29 @@ const offlineResources = [
   '/offline.svg'
 ];
 
+
 const ignoreFetch = [
   /https?:\/\/cdn.bootcss.com\//,
   /https?:\/\/static.duoshuo.com\//,
   /https?:\/\/www.google-analytics.com\//,
   /https?:\/\/dn-lbstatics.qbox.me\//,
-  /https?:\/\/ajax.cloudflare.com\//,
+  /https?:\/\/s.maiyaole.com\//,
+  /https?:\/\/www.macsen318.com\//,
 ];
+
 
 
 //////////
 // Install
 //////////
 function onInstall(event) {
-  log('install event in progress.');
-
-  event.waitUntil(updateStaticCache());
+  updateStaticCache()
+  event.waitUntil(self.skipWaiting());
+  //log('install event in progress.');
+  //event.waitUntil(updateStaticCache());
 }
+
+
 
 function updateStaticCache() {
   return caches
@@ -38,22 +44,26 @@ function updateStaticCache() {
     });
 }
 
+
+
+
 ////////
 // Fetch
 ////////
 function onFetch(event) {
   const request = event.request;
-
+  if (request.method === 'POST') return;
   if (shouldAlwaysFetch(request)) {
+    console.log('shouldAlwaysFetch: ', request.url)
     event.respondWith(networkedOrOffline(request));
     return;
   }
-
   if (shouldFetchAndCache(request)) {
+    console.log('shouldFetchAndCache: ', request.url)
     event.respondWith(networkedOrCached(request));
     return;
   }
-
+  console.log('cachedOrNetworked: ', request.url)
   event.respondWith(cachedOrNetworked(request));
 }
 
@@ -80,7 +90,7 @@ function networkedAndCache(request) {
 function cachedOrNetworked(request) {
   return caches.match(request)
     .then((response) => {
-      log(response ? '(cached)' : '(network: cache miss)', request.method, request.url);
+      log(response ? '(cached555)' : '(network: cache miss999)', request.method, request.url);
       return response ||
         networkedAndCache(request)
           .catch(() => { return offlineResponse(request) });
@@ -90,13 +100,15 @@ function cachedOrNetworked(request) {
 function networkedOrOffline(request) {
   return fetch(request)
     .then((response) => {
-      log('(network)', request.method, request.url);
+      console.log('(network)', request.method, request.url);
       return response;
     })
     .catch(() => {
       return offlineResponse(request);
     });
 }
+
+
 
 function cachedOrOffline(request) {
   return caches
@@ -119,11 +131,12 @@ function offlineResponse(request) {
 // Activate
 ///////////
 function onActivate(event) {
-  log('activate event in progress.');
+  
   event.waitUntil(removeOldCache());
 }
 
 function removeOldCache() {
+  self.clients.claim()
   return caches
     .keys()
     .then((keys) => {
@@ -147,19 +160,21 @@ function cacheKey() {
 }
 
 function log() {
-  if (developmentMode()) {
-    console.log("SW:", ...arguments);
-  }
+  console.log("SW:", ...arguments);
+  // if (developmentMode()) {
+    
+  // }
 }
 
 function shouldAlwaysFetch(request) {
-  return __DEVELOPMENT__ ||
-    request.method !== 'GET' ||
+  return request.method !== 'POST' &&
       ignoreFetch.some(regex => request.url.match(regex));
 }
 
 function shouldFetchAndCache(request) {
-  return ~request.headers.get('Accept').indexOf('text/html');
+  let isNeedCache = ~request.headers.get('Accept').indexOf('text/html');
+  console.log('request: ', request.url, ' ', isNeedCache)
+  return isNeedCache
 }
 
 function developmentMode() {
