@@ -56,6 +56,25 @@
             firstScript.parentNode.insertBefore(script, firstScript);
         };
     </script>
+    <script>
+      // ../web/index.js
+      console.log('window.__ELECTRON__', window.__ELECTRON__)
+document.body.addEventListener('click', function() {
+  console.log('window.__ELECTRON__', window.__ELECTRON__)
+  if (window.__ELECTRON__ && window.ElectronBridge) { //electron 环境
+    console.log('window.__ELECTRON__', window.__ELECTRON__)
+    ElectronBridge.setFullScreen((err) => {
+      if (err) return;
+      console.log('done');
+    });
+  } else { //web 环境
+    alert('不能设置全屏')
+    //do something else
+  }
+});
+      // You can also require other files to run in this process
+      //require('./renderer.js')
+    </script>
     
   </body>
 </html>
